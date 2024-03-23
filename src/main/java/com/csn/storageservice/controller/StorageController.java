@@ -38,4 +38,12 @@ public class StorageController {
                 .status(HttpStatus.FOUND)
                 .body(storageDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto> deleteImage(@PathVariable("id") Long id){
+        storageService.deleteImage(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new ResponseDto("200","Image deleted successfully"));
+    }
 }

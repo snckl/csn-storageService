@@ -42,4 +42,13 @@ public class StorageService {
         }
         throw new ResourceNotFoundException("Image","id",id.toString());
     }
+
+    public void deleteImage(Long id){
+        Optional<Storage> storage = storageRepository.findById(id);
+        if(storage.isPresent()){
+            storageRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException("Image","id",id.toString());
+        }
+    }
 }
