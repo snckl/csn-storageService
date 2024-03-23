@@ -1,3 +1,9 @@
+server:
+  port: 8020
 spring:
   application:
     name: storage-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/storagedb
+    username: root
+    password: root
