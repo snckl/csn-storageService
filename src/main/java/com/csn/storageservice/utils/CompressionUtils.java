@@ -11,7 +11,7 @@ import java.util.zip.GZIPOutputStream;
 
 public class CompressionUtils {
 
-    private static final int BUFFER_SIZE = 1024;
+    private static final int BUFFER_SIZE = 4096;
     public static byte[] compress(byte[] data) throws IOException {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
              GZIPOutputStream gzipOutputStream = new GZIPOutputStream(byteArrayOutputStream)) {

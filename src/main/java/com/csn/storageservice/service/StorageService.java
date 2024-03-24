@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,7 +36,6 @@ public class StorageService {
         Optional<Storage> storage = storageRepository.findById(id);
         if(storage.isPresent()){
             byte[] content = CompressionUtils.decompress(storage.get().getContent());
-
             return StorageDto.builder()
                     .filename(storage.get().getFileName())
                     .type(storage.get().getType())
