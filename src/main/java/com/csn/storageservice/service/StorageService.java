@@ -25,7 +25,7 @@ public class StorageService {
             byte[] content = Objects.requireNonNull(image.getBytes());
             byte[] compressedContent = CompressionUtils.compress(content);
             if(compressedContent.length > 15728640) {
-                throw new MaxImageSizeExceededException(image.getOriginalFilename().toString());
+                throw new MaxImageSizeExceededException(image.getOriginalFilename());
             }
             Storage storage = Storage.builder()
                     .type(image.getContentType())

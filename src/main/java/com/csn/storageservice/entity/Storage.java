@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class Storage extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fileName;
     private String type;
