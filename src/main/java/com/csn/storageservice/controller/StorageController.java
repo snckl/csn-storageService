@@ -36,11 +36,9 @@ public class StorageController {
             description = "HTTP Status CREATED"
     )
     @PostMapping
-    public ResponseEntity<ResponseDto> saveImage(@RequestParam("content")MultipartFile image,
-                                                   @RequestParam("type") String type,
-                                                   @RequestParam("fileName") String fileName) throws IOException {
+    public ResponseEntity<ResponseDto> saveImage(@RequestParam("content")MultipartFile image) throws IOException {
 
-        storageService.saveImage(image,type,fileName);
+        storageService.saveImage(image);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto("201","Image saved successfully"));

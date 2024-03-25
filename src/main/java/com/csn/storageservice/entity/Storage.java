@@ -2,6 +2,7 @@ package com.csn.storageservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Getter

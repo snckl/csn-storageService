@@ -2,6 +2,7 @@ package com.csn.storageservice.service;
 
 import com.csn.storageservice.dto.StorageDto;
 import com.csn.storageservice.entity.Storage;
+import com.csn.storageservice.exception.MaxImageSizeExceededException;
 import com.csn.storageservice.exception.ResourceNotFoundException;
 import com.csn.storageservice.repository.StorageRepository;
 import com.csn.storageservice.utils.CompressionUtils;
@@ -20,15 +21,16 @@ import java.util.Optional;
 public class StorageService {
     private final StorageRepository storageRepository;
 
-    public void saveImage(MultipartFile image,String type,String fileName) throws IOException {
-            byte[] content = Objects.requireNonNull(image.getOriginalFilename()).getBytes();
+    public void saveImage(MultipartFile image) throws IOException {
+            byte[] content = Objects.requireNonNull(image.getBytes());
             byte[] compressedContent = CompressionUtils.compress(content);
-
+            if(compressedContent.length > 15728640) {
+                throw new MaxImageSizeExceededException(image.getOriginalFilename().toString());
+            }
             Storage storage = Storage.builder()
-                    .type(type)
-                    .fileName(fileName)
+                    .type(image.getContentType())
+                    .fileName(image.getOriginalFilename())
                     .content(compressedContent).build();
-
             storageRepository.save(storage);
     }
 
