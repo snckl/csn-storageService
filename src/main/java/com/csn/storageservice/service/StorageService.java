@@ -7,6 +7,7 @@ import com.csn.storageservice.exception.ResourceNotFoundException;
 import com.csn.storageservice.repository.StorageRepository;
 import com.csn.storageservice.utils.CompressionUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StorageService {
     private final StorageRepository storageRepository;
 
@@ -31,7 +33,8 @@ public class StorageService {
                     .type(image.getContentType())
                     .fileName(image.getOriginalFilename())
                     .content(compressedContent).build();
-            storageRepository.save(storage);
+            Storage createdImage = storageRepository.save(storage);
+            log.info("Image created with id of {}",createdImage.getId());
     }
 
     public StorageDto fetchImage(Long id) throws IOException {
@@ -50,6 +53,7 @@ public class StorageService {
         Optional<Storage> storage = storageRepository.findById(id);
         if(storage.isPresent()){
             storageRepository.deleteById(id);
+            log.info("Image deleted with id of {}",id);
         } else {
             throw new ResourceNotFoundException("Image","id",id.toString());
         }
