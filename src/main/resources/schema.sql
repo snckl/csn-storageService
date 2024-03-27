@@ -1,6 +1,7 @@
 use storagedb;
 CREATE TABLE IF NOT EXISTS `storage` (
                            `id` bigint NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                           `post_id` bigint NOT NULL,
                            `file_name` varchar(255) NOT NULL,
                            `type` varchar(255) NOT NULL,
                            `content` mediumblob,

@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,13 +20,14 @@ import java.util.Optional;
 public class StorageService {
     private final StorageRepository storageRepository;
 
-    public void saveImage(MultipartFile image) throws IOException {
+    public void saveImage(MultipartFile image,Long id) throws IOException {
             byte[] content = Objects.requireNonNull(image.getBytes());
             byte[] compressedContent = CompressionUtils.compress(content);
             if(compressedContent.length > 15728640) {
                 throw new MaxImageSizeExceededException(image.getOriginalFilename());
             }
             Storage storage = Storage.builder()
+                    .postId(id)
                     .type(image.getContentType())
                     .fileName(image.getOriginalFilename())
                     .content(compressedContent).build();
@@ -38,10 +36,11 @@ public class StorageService {
     }
 
     public StorageDto fetchImage(Long id) throws IOException {
-        Optional<Storage> storage = storageRepository.findById(id);
+        Optional<Storage> storage = storageRepository.findByPostId(id);
         if(storage.isPresent()){
             byte[] content = CompressionUtils.decompress(storage.get().getContent());
             return StorageDto.builder()
+                    .postId(id)
                     .filename(storage.get().getFileName())
                     .type(storage.get().getType())
                     .content(content).build();
@@ -50,10 +49,10 @@ public class StorageService {
     }
 
     public void deleteImage(Long id){
-        Optional<Storage> storage = storageRepository.findById(id);
+        Optional<Storage> storage = storageRepository.findByPostId(id);
         if(storage.isPresent()){
-            storageRepository.deleteById(id);
-            log.info("Image deleted with id of {}",id);
+            storageRepository.deleteByPostId(id);
+            log.info("Image deleted with id of {}",storage.get().getId());
         } else {
             throw new ResourceNotFoundException("Image","id",id.toString());
         }

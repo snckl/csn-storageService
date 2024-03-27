@@ -14,6 +14,7 @@ public class Storage extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long postId;
     private String fileName;
     private String type;
     @Lob
