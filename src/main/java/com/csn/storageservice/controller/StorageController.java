@@ -55,7 +55,7 @@ public class StorageController {
     public ResponseEntity<StorageDto> fetchImage(@PathVariable("id") Long id) throws IOException {
         StorageDto storageDto = storageService.fetchImage(id);
         return ResponseEntity
-                .status(HttpStatus.FOUND)
+                .status(HttpStatus.OK)
                 .body(storageDto);
     }
 
