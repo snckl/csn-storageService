@@ -43,6 +43,6 @@ eureka:
 
 info:
   app:
-    name: "storage"
+    name: "storage-service"
     description: "CSN Storage Application"
     version: "1.0.0"

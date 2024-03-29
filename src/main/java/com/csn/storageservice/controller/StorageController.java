@@ -22,7 +22,7 @@ import java.io.IOException;
         description = "Create fetch delete for image details"
 )
 @RestController
-@RequestMapping(value = "/api/v1/storage",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Validated
 public class StorageController {
