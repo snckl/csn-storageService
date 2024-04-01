@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ import java.io.IOException;
 @RequestMapping(value = "/api/v1",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class StorageController {
     private final StorageService storageService;
 
@@ -52,7 +54,8 @@ public class StorageController {
             description = "HTTP Status OK"
     )
     @GetMapping("/{id}")
-    public ResponseEntity<StorageDto> fetchImage(@PathVariable("id") Long id) throws IOException {
+    public ResponseEntity<StorageDto> fetchImage(@PathVariable("id") Long id,@RequestHeader("csn-correlation-id") String correlationId) throws IOException {
+        log.debug("csn-correlation-id found: {}",correlationId);
         StorageDto storageDto = storageService.fetchImage(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
